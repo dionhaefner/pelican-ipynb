@@ -79,7 +79,7 @@ class IPythonNB(BaseReader):
         content, info = get_html_from_filepath(filepath)
 
         # Generate Summary: Do it before cleaning CSS
-        if 'summary' not in [key.lower() for key in self.settings.keys()]:
+        if 'IPYNB_USE_META_SUMMARY' not in self.settings.keys() or not self.settings['IPYNB_USE_META_SUMMARY']:
             content = '<body>{0}</body>'.format(content)    # So Pelican HTMLReader works
             parser = MyHTMLParser(self.settings, filename)
             parser.feed(content.decode("utf-8"))
@@ -87,7 +87,11 @@ class IPythonNB(BaseReader):
             content = parser.body
             metadata['summary'] = parser.summary
 
-        content = fix_css(content, info)
+        if 'IPYNB_STRIP_CSS' in self.settings.keys():
+            strip_css = self.settings["IPYNB_STRIP_CSS"]
+        else:
+            strip_css = False
+        content = fix_css(content, info, strip_css=strip_css)
         return content, metadata
 
 
