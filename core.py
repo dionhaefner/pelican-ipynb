@@ -113,7 +113,6 @@ def fix_css(content, info, strip_css=False):
 
     if strip_css:
         ipython_css = ''
-        print("Stripping CSS!")
     else:
         ipython_css = '\n'.join(filter_css(css_style) for css_style in info['inlining']['css'])
     content = ipython_css + content + LATEX_CUSTOM_SCRIPT
