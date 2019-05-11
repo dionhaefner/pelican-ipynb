@@ -2,7 +2,7 @@
 Core module that handles the conversion from notebook to HTML
 Plus some utilities
 """
-from __future__ import absolute_import, print_function, division
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 import os
 import re
@@ -86,7 +86,7 @@ def get_html_from_filepath(filepath):
         for i in soup.findAll("div", {"class" : "input"}):
             if i.findChildren()[1].find(text='#ignore') is not None:
                 i.extract()
-        content = unicode(soup)
+        content = str(soup)
 
     return content, info
 
